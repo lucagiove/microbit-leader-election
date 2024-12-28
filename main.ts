@@ -26,9 +26,6 @@ radio.onReceivedValue(function (name, value) {
     }
     if (name == "leader") {
         leaderElected = 1
-        if (!(leader)) {
-            radio.sendValue("player", control.deviceSerialNumber())
-        }
         basic.showLeds(`
             # # # # #
             # . . . #
@@ -39,18 +36,6 @@ radio.onReceivedValue(function (name, value) {
     }
     if (name == "setup") {
         doElection()
-    }
-    if (name == "player") {
-        if (leader) {
-            radio.sendValue("player", control.deviceSerialNumber() + 100000000)
-        } else {
-            serialPlusPlayer = value
-            playerNumber = (serialPlusPlayer - control.deviceSerialNumber()) / 100000000
-            if (true) {
-            	
-            }
-            serial.writeLine("" + name + value)
-        }
     }
 })
 function doElection () {
@@ -68,8 +53,6 @@ function doElection () {
     radio.sendValue("election", control.deviceSerialNumber())
 }
 let electionCountdown = 0
-let playerNumber = 0
-let serialPlusPlayer = 0
 let leader = 0
 let leaderElected = 0
 let candidateLeader = 0
